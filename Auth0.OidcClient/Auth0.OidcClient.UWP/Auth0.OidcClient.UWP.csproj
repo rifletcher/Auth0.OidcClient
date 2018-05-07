@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{304D624D-2898-4F15-BA9B-C70862572BEA}</ProjectGuid>
+    <ProjectGuid>{E154C62F-2A29-4739-A8C6-55CF18154ED9}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Auth0.OidcClient.UWP</RootNamespace>

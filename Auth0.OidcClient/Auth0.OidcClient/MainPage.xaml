@@ -6,7 +6,11 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <Button Text="Login" Clicked="Handle_Clicked"/>
+            <Button Text="Login" x:Name="Login" />
+            <Button Text="Call Api" x:Name="CallApi" />
+            <Label x:Name="OutputText"
+                VerticalOptions="FillAndExpand" 
+                HorizontalOptions="FillAndExpand" />
         </StackLayout>
     </ContentPage.Content>
 

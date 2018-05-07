@@ -1,13 +1,16 @@
-﻿using Foundation;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Foundation;
 using IdentityModel.OidcClient.Browser;
 using SafariServices;
-using System.Diagnostics;
-using Auth0.OidcClient.iOS;
-using Xamarin.Forms;
+using UIKit;
 
-[assembly: Dependency(typeof(SFAuthenticationSessionBrowser))]
 namespace Auth0.OidcClient.iOS
+{
 {
     public class SFAuthenticationSessionBrowser : IBrowser
     {
