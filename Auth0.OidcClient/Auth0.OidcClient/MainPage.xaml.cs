@@ -26,6 +26,7 @@ namespace Auth0.OidcClient
 
             Login.Clicked += Login_Clicked;
             CallApi.Clicked += CallApi_Clicked;
+            CallAuthApi.Clicked += CallAuthApi_Clicked;
 
             var browser = DependencyService.Get<IBrowser>();
 
@@ -66,14 +67,28 @@ namespace Auth0.OidcClient
             OutputText.Text = sb.ToString();
 
             _apiClient.Value.SetBearerToken(_result?.AccessToken ?? "");
-            _apiClient.Value.BaseAddress = new Uri("https://demo.identityserver.io/");
 
         }
 
         private async void CallApi_Clicked(object sender, EventArgs e)
         {
+            _apiClient.Value.BaseAddress = new Uri("http://localhost:63564/");
+            var result = await _apiClient.Value.GetAsync("api/values");
 
-            var result = await _apiClient.Value.GetAsync("api/test");
+            if (result.IsSuccessStatusCode)
+            {
+                OutputText.Text = JArray.Parse(await result.Content.ReadAsStringAsync()).ToString();
+            }
+            else
+            {
+                OutputText.Text = result.ReasonPhrase;
+            }
+        }
+        private async void CallAuthApi_Clicked(object sender, EventArgs e)
+        {
+            if (_apiClient.Value.BaseAddress is null)
+                _apiClient.Value.BaseAddress = new Uri("http://localhost:63564/");
+            var result = await _apiClient.Value.GetAsync("api/values/1");
 
             if (result.IsSuccessStatusCode)
             {
