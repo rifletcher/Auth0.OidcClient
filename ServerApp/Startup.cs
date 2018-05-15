@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -12,12 +13,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ServerApp
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env, IConfiguration configuration)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -28,8 +30,7 @@ namespace ServerApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-            string domain = $"https://{Configuration["Auth0:Domain"]}/";
+            //string domain = $"https://{Configuration["Auth0:Domain"]}/";
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -37,17 +38,10 @@ namespace ServerApp
 
             }).AddJwtBearer(options =>
             {
-                options.Authority = domain;
-                options.Audience = Configuration["Auth0:ApiIdentifier"];
+                options.Authority = "https://channelyou.eu.auth0.com/";
+                options.Audience = "https://ChannelYou";
             });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("read:messages", policy => policy.Requirements.Add(new HasScopeRequirement("read:messages", domain)));
-            });
-
-            // register the scope authorization handler
-            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,21 +51,10 @@ namespace ServerApp
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-
-            app.UseStaticFiles();
 
             app.UseAuthentication();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvc();
         }
     }
 }

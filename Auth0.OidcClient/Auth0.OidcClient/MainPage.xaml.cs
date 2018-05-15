@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,10 +16,12 @@ namespace Auth0.OidcClient
 {
     public partial class MainPage : ContentPage
     {
-        IdentityModel.OidcClient.OidcClient _client;
+        IdentityModel.OidcClient.OidcClient _oidcClient;
+        private HttpClient _apiClient;
         LoginResult _result;
 
-        Lazy<HttpClient> _apiClient = new Lazy<HttpClient>(() => new HttpClient());
+
+        private string token;
 
         public MainPage()
         {
@@ -42,12 +45,12 @@ namespace Auth0.OidcClient
                 Policy = new Policy() { RequireAccessTokenHash = false }
             };
 
-            _client = new IdentityModel.OidcClient.OidcClient(options);
+            _oidcClient = new IdentityModel.OidcClient.OidcClient(options);
         }
 
         private async void Login_Clicked(object sender, EventArgs e)
         {
-            _result = await _client.LoginAsync(new LoginRequest());
+            _result = await _oidcClient.LoginAsync(new LoginRequest());
 
             if (_result.IsError)
             {
@@ -66,18 +69,18 @@ namespace Auth0.OidcClient
 
             OutputText.Text = sb.ToString();
 
-            _apiClient.Value.SetBearerToken(_result?.AccessToken ?? "");
-
+            token = _result.AccessToken;
         }
 
         private async void CallApi_Clicked(object sender, EventArgs e)
         {
-            _apiClient.Value.BaseAddress = new Uri("http://localhost:63564/");
-            var result = await _apiClient.Value.GetAsync("api/values");
+            _apiClient = new HttpClient();
+            _apiClient.BaseAddress = new Uri("http://localhost:63564/");
+            var result = await _apiClient.GetAsync("api/values");
 
             if (result.IsSuccessStatusCode)
             {
-                OutputText.Text = JArray.Parse(await result.Content.ReadAsStringAsync()).ToString();
+                OutputText.Text = result.Content.ReadAsStringAsync().Result;
             }
             else
             {
@@ -86,13 +89,16 @@ namespace Auth0.OidcClient
         }
         private async void CallAuthApi_Clicked(object sender, EventArgs e)
         {
-            if (_apiClient.Value.BaseAddress is null)
-                _apiClient.Value.BaseAddress = new Uri("http://localhost:63564/");
-            var result = await _apiClient.Value.GetAsync("api/values/1");
+            _apiClient = new HttpClient();
+            _apiClient.BaseAddress = new Uri("http://localhost:63564/");
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, "api/values/1");
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var result = await _apiClient.SendAsync(requestMessage);
 
             if (result.IsSuccessStatusCode)
             {
-                OutputText.Text = JArray.Parse(await result.Content.ReadAsStringAsync()).ToString();
+                OutputText.Text = result.Content.ReadAsStringAsync().Result;
             }
             else
             {
