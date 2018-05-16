@@ -18,7 +18,7 @@ namespace ServerApp.Controllers
         }
 
         // GET api/values/5
-        [Authorize]
+        [Authorize("read:user")]
         [HttpGet("{id}")]
         public string Get(int id)
         {

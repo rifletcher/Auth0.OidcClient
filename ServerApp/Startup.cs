@@ -42,6 +42,13 @@ namespace ServerApp
                 options.Audience = "https://ChannelYou";
             });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("read:user", policy => policy.Requirements.Add(new HasScopeRequirement("read:user", "https://channelyou.eu.auth0.com/")));
+            });
+
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
