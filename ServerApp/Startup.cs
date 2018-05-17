@@ -30,7 +30,9 @@ namespace ServerApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            //string domain = $"https://{Configuration["Auth0:Domain"]}/";
+
+            services.AddSwaggerDocumentation();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -57,6 +59,7 @@ namespace ServerApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwaggerDocumentation();
             }
 
             app.UseAuthentication();
