@@ -18,3 +18,9 @@ https://github.com/xamarin/xamarin-android/issues/1196
 
 Requires removing the package requirements from the sln, then readding the nuget packages. Also need to remove any xforms references in the sln after this.
 
+To add social logins i.e. google, follow https://auth0.com/docs/connections/social/google
+
+/swagger to hit the swagger definition. Use the authorize button to put in the token: i.e. bearer <token>
+  
+To obtain a token, use the UWP version, once logged in the JWT token can be copied from the editbox and placed into swagger.
+
