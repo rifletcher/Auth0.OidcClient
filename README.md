@@ -1,6 +1,6 @@
 # Auth0.OidcClient
 
-Example project authentcating against Auth0 using IdentityModel libraries
+Example project authenticating against Auth0 using IdentityModel libraries
 
 https://github.com/IdentityModel/IdentityModel.OidcClient2
 
