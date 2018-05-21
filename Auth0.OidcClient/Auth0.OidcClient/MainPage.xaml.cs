@@ -75,7 +75,7 @@ namespace Auth0.OidcClient
         private async void CallApi_Clicked(object sender, EventArgs e)
         {
             _apiClient = new HttpClient();
-            _apiClient.BaseAddress = new Uri("http://localhost:63564/");
+            _apiClient.BaseAddress = new Uri("http://10.5.0.102:5050/");
             var result = await _apiClient.GetAsync("api/values");
 
             if (result.IsSuccessStatusCode)
@@ -90,7 +90,7 @@ namespace Auth0.OidcClient
         private async void CallAuthApi_Clicked(object sender, EventArgs e)
         {
             _apiClient = new HttpClient();
-            _apiClient.BaseAddress = new Uri("http://localhost:63564/");
+            _apiClient.BaseAddress = new Uri("http://10.5.0.102:5050/");
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, "api/values/1");
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 

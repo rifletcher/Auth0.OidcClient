@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace ServerApp
 {
@@ -32,6 +34,11 @@ namespace ServerApp
             services.AddMvc();
 
             services.AddSwaggerDocumentation();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "API", Version = "v1" });
+            });
 
             services.AddAuthentication(options =>
             {
@@ -54,8 +61,11 @@ namespace ServerApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole();
+            loggerFactory.AddDebug();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -64,7 +74,25 @@ namespace ServerApp
 
             app.UseAuthentication();
 
+            app.UseSwagger(c =>
+            {
+                c.RouteTemplate = "api/swagger/{documentName}/swagger.json";
+            });
+
+            app.UseSwaggerUI(c =>
+            {
+                c.RoutePrefix = "api/swagger";
+                c.SwaggerEndpoint("/api/swagger/v1/swagger.json", "V1 Documentation");
+            });
+
             app.UseMvc();
+
+            app.Use(async (context, next) =>
+            {
+                await next();
+                Log.Information("Incoming Request on path {0}, statusCode {1}", context.Request.Path, context.Response.StatusCode);
+                await next();
+            });
         }
     }
 }

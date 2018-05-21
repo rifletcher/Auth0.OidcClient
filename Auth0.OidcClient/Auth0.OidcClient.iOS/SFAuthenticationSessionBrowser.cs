@@ -11,7 +11,6 @@ using UIKit;
 
 namespace Auth0.OidcClient.iOS
 {
-{
     public class SFAuthenticationSessionBrowser : IBrowser
     {
         SFAuthenticationSession _sf;

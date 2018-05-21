@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace ServerApp
 {
@@ -14,12 +15,37 @@ namespace ServerApp
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            try
+            {
+                Log.Information("Startup");
+
+                var host = new WebHostBuilder()
+                    .UseKestrel()
+                    .UseUrls("http://*:" + Settings.ApplicationPort)
+                    .UseContentRoot(Directory.GetCurrentDirectory())
+                    .UseStartup<Startup>()                   
+                    .Build();
+
+                host.Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+        //public static IWebHost BuildWebHost(string[] args) =>
+        //    WebHost.CreateDefaultBuilder(args)
+        //        .UseStartup<Startup>()
+        //        .Build();
     }
 }

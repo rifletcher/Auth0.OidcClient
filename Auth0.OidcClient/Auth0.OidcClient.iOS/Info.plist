@@ -50,5 +50,14 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>Auth0.OidcClient</string>
+		<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>auth0.oidcclient</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

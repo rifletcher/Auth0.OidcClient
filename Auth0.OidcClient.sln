@@ -13,9 +13,14 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Auth0.OidcClient", "Auth0.O
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{7B531C72-11B3-4F13-9C41-435C2C3D0CF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerApp", "ServerApp\ServerApp.csproj", "{B18F62E5-84F5-46D7-AB5E-DE2B6473150F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerApp", "ServerApp\ServerApp.csproj", "{B18F62E5-84F5-46D7-AB5E-DE2B6473150F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{4A936F08-3D50-4518-A03F-99081923F33E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ECF40145-3689-44DC-8F28-8B1189763125}"
+	ProjectSection(SolutionItems) = preProject
+		Notes.txt = Notes.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
