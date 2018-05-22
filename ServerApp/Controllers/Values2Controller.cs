@@ -7,15 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ServerApp.Controllers
 {
-    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class Values2Controller : Controller
     {
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "2.0-value1", "2.0-value2" };
         }
 
         // GET api/values/5
@@ -23,7 +23,7 @@ namespace ServerApp.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            return "2.0-value";
         }
 
         // POST api/values

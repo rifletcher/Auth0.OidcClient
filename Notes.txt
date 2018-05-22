@@ -1,3 +1,3 @@
 docker build -t rifletcher/auth0-server:v1.0.0 .
 docker run -d -p5050:5050 rifletcher/auth0-server:v1.0.0
-http://localhost:63564/api/values
+Bearer <token>

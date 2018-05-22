@@ -76,7 +76,7 @@ namespace Auth0.OidcClient
         {
             _apiClient = new HttpClient();
             _apiClient.BaseAddress = new Uri("http://10.5.0.102:5050/");
-            var result = await _apiClient.GetAsync("api/values");
+            var result = await _apiClient.GetAsync("api/values2?api-version=2.0");
 
             if (result.IsSuccessStatusCode)
             {
@@ -91,7 +91,7 @@ namespace Auth0.OidcClient
         {
             _apiClient = new HttpClient();
             _apiClient.BaseAddress = new Uri("http://10.5.0.102:5050/");
-            var requestMessage = new HttpRequestMessage(HttpMethod.Get, "api/values/1");
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, "api/values2/1?api-version=2.0");
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var result = await _apiClient.SendAsync(requestMessage);
